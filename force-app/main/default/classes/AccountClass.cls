@@ -25,7 +25,7 @@ public with sharing class AccountClass {
         List<Opportunity> opplist = [Select Id, StageName, CreatedDate FROM Opportunity WHERE AccountId IN: acclist];
         
         for(Opportunity opp : opplist){
-            if(currentDate.daysBetween(opp.CreatedDate.Date()) == 0){
+            if(currentDate.daysBetween(opp.CreatedDate.Date()) > 30){
                 if(opp.StageName != 'Closed Won'){
                     opp.StageName = 'Closed Lost';
                 }
