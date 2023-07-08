@@ -105,4 +105,8 @@ public with sharing class AccountClass {
         update accounttoupdate;
     }
     // *******---------------------*******************
+
+    public static void Scene6(List<Account> newacc, List<Account> oldacc){
+        
+    }
 }
