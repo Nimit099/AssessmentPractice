@@ -3,7 +3,7 @@ trigger AccountTrigger on Account (before insert, after update, after insert, be
     //account billing address should populate into the account shipping address.
     if(Trigger.isInsert){
         if(Trigger.isBefore){
-            AccountClass.Scene1(Trigger.New);
+            // AccountClass.Scene1(Trigger.New);
         }
     }
     // ****************************
@@ -14,7 +14,7 @@ trigger AccountTrigger on Account (before insert, after update, after insert, be
     // opportunity created date is greater than 30 days from today and stage not equal to close won.
     if(Trigger.isUpdate){
         if(Trigger.isAfter){
-            AccountClass.Scene2(Trigger.New);
+            // AccountClass.Scene2(Trigger.New);
         }
     }
     // ****************************
@@ -34,7 +34,7 @@ trigger AccountTrigger on Account (before insert, after update, after insert, be
     // Opportunities on the Account Level. The account field name would be ” Total Opportunity Amount.
     if(Trigger.isUpdate){
         if(Trigger.isbefore){
-            AccountClass.Scene4(Trigger.New);
+            // AccountClass.Scene4(Trigger.New);
         }
     }
     // ****************************
