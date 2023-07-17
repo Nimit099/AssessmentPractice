@@ -1,4 +1,23 @@
 public with sharing class ProductController {
+    public String cvversion {get; set;}
+    public Boolean ShowpageBlockFlag{get; set;}
+
+    public void show (){
+        // String id = ApexPages.currentPage().getParameters().get('AttachmentID');
+        try {
+            
+            System.debug('Hi');
+            ContentDocumentLink cdl = [SELECT Id, ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =: '0019D00000Z0eqUQAR'LIMIT 1];
+            ContentVersion att = [SELECT Id, ContentBodyId,FileExtension, ContentUrl, VersionDataUrl, VersionData FROM ContentVersion WHERE ContentDocumentId =: cdl.ContentDocumentId LIMIT 1];
+            cvversion = EncodingUtil.Base64Encode(att.VersionData);
+            System.debug('Nimit'+att);
+            System.debug(cvversion);
+            ShowpageBlockFlag = true;
+        } catch (Exception e) {
+            System.debug(e);
+        }
+}
+
     public static void scene1(List<Product2> productlist){
         Map<Id, Integer> readyproductitemprice = new Map<Id, Integer>();
         Map<Id, Product2> Notreadyproduct = new Map<Id, Product2>();
@@ -47,4 +66,8 @@ public with sharing class ProductController {
         insert productitemlist;
     }
 
-}
+    
+
+    
+
+  }

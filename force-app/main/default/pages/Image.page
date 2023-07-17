@@ -1,0 +1,13 @@
+<apex:page controller="ProductController">
+<!-- Begin Default Content REMOVE THIS -->
+<apex:form >
+<apex:commandButton value="click" rerender="one" action="{!show}"/>
+<apex:pageBlock rendered="{!ShowpageBlockFlag}">
+
+<img src="data:img/png;base64,{!cvversion}" /> 
+
+</apex:pageBlock>
+</apex:form>
+<!-- <apex:image src="data:img/png;base64,{!cvversion}"></apex:image> -->
+<!-- End Default Content REMOVE THIS -->
+</apex:page>
