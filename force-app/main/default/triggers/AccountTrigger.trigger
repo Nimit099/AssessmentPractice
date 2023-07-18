@@ -25,7 +25,7 @@ trigger AccountTrigger on Account (before insert, after update, after insert, be
     if(Trigger.isInsert){
         if(Trigger.isAfter){
             // AccountClass.Scene3(Trigger.New);
-            AccountClass.Scene6(Trigger.new);
+            // AccountClass.Scene6(Trigger.new);
         }
     }
     // ****************************
@@ -54,7 +54,16 @@ trigger AccountTrigger on Account (before insert, after update, after insert, be
     //  added to Sales Rep field. When we update the Account owner of the record,
     //   then also the Sales Rep will be automatically updated.
     if(Trigger.isUpdate && Trigger.isAfter){
-        AccountClass.Scene7(Trigger.oldMap, Trigger.new);
+        // AccountClass.Scene7(Trigger.oldMap, Trigger.new);
+    }
+
+    // Create "Sales Rep" field with the data type(Text) on the Account object When we create the Account record,
+    // the Account owners will be automatically added to the sales rep field. When we update the Account owner 
+    // of the record, then also the Sales Rep will be automatically updated.
+    if(Trigger.isBefore && Trigger.isInsert){
+        AccountClass.Scene8(Trigger.new, null);
+    } else if (Trigger.isBefore && Trigger.isUpdate) {
+        AccountClass.Scene8(Trigger.new, Trigger.oldMap);
     }
 
 }

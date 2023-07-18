@@ -141,4 +141,63 @@ public with sharing class AccountClass {
         //     }
         // }
     }
+    // Create "Sales Rep" field with the data type(Text) on the Account object When we create the Account record,
+    // the Account owners will be automatically added to the sales rep field. When we update the Account owner 
+    // of the record, then also the Sales Rep will be automatically updated.
+    public static void Scene8(List<Account> acclist, Map<Id, Account> oldacclist){
+
+        Set<Id> ownerId = new Set<Id>();
+        if (oldacclist == null) {
+            for (Account acc : acclist) {
+                ownerId.add(acc.OwnerId);
+            }
+            Map<Id, User> users = new Map<Id, User>([SELECT Name FROM User WHERE Id IN: ownerId]);
+            for (Account acc : acclist) {
+                acc.Sales_Rep__c = users.get(acc.OwnerId).Name;
+            }
+        } else {
+            for (Account acc : acclist) {
+                Account a = oldacclist.get(acc.Id);
+                if (a.Owner.Name != acc.Owner.Name) {
+                    acc.Sales_Rep__c = acc.Owner.Name;
+                }
+            }
+        }
+    }
+
+
+    
+    
+     public void main(){
+         HttpRequest request = new HttpRequest();
+         request.setEndpoint('https://login.salesforce.com/services/oauth2/token?grant_type=password&client_id=3MVG9fe4g9fhX0E71nnkMx60HwrbvDLZJqeomupQH8bgZnyx4AEwFJn9EbDySPZKOsIS2X7.BWFGY9OMF.s5C&client_secret=A0FC9747723055DF1FC84FF31215EED3547ADA5290D4EBFA89205D875D4E5E5C&username=nimit.s@mvclouds.developer.com&password=24_Whitedevil&=');
+         request.setMethod('POST');
+         Http http = new Http();
+         HttpResponse response = new HttpResponse();
+         response = http.send(request);
+         Oauth oauthdata = (Oauth)JSON.deserialize(response.getBody(),Oauth.class);
+         if(oauthdata.access_token != null){
+            HttpRequest request1 = new HttpRequest();
+            request1.setEndpoint('https://mvclouds29-dev-ed.develop.my.salesforce.com/services/apexrest/getBoard');
+            request1.setMethod('GET');
+            request1.setHeader('Content-Type', 'application/json');
+            request1.setHeader('Authorization', 'Bearer '+oauthdata.access_token);
+            Http http1 = new Http();
+            HttpResponse response1 = new HttpResponse();
+            response1 = http1.send(request1);
+            ContentVersion contentVersion = new ContentVersion();
+            contentVersion.Title = 'File File';
+            contentVersion.PathOnClient = 'file.pdf';
+            contentVersion.VersionData = response1.getBodyAsBlob();
+            insert contentVersion;
+         }
+     }
+     public class Oauth{
+         public String access_token{get; set;}
+         public String instance_url{get; set;}
+         public String id{get; set;}
+         public String token_type{get; set;}
+         public String issued_at{get; set;}
+         public String signature{get; set;}
+     }
 }
